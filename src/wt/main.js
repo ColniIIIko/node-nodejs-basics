@@ -16,12 +16,17 @@ const performCalculations = async () => {
       worker.on("message", (message) => {
         res(message);
       });
+      worker.on("error", (err) => {
+        rej(err);
+      });
     });
 
     promises.push(workerPromise);
   }
 
-  const results = (await Promise.allSettled(promises)).map((r) => r.value);
+  const results = (await Promise.allSettled(promises)).map((r) =>
+    r.status === "fulfilled" ? r.value : { status: "error", data: null }
+  );
   console.log(results);
 };
 

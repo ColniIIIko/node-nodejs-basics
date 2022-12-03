@@ -8,8 +8,8 @@ const sendResult = () => {
   const { n } = workerData;
   const data = nthFibonacci(n);
   parentPort.postMessage({
-    status: data ? "resolved" : "error",
-    data: data || null,
+    status: "resolved",
+    data,
   });
 };
 
